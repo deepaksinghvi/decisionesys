@@ -1,0 +1,48 @@
+[
+  {
+    "name": "PerfRunStatusCompleted",
+    "desc": "When PerfRun Status is completed.",
+    "salience": 0,
+    "when": "PerfRunFact.RunStatus == ResultFact.PerfRunFactCompleted ",
+    "then": [
+      "PerfRunFact.FactResult = \"VALID\"",
+      "PerfRunFact.FactMessage = \"PerfRun Valid\"",
+      "Log(\"---Rule Executed: PerfRunStatusCompleted---\")",
+      "Retract(\"PerfRunStatusCompleted\")"
+    ]
+  },
+  {
+    "name": "PerfRunStatusNotCompleted",
+    "desc": "When PerfRun Status is not completed.",
+    "salience": 0,
+    "when": "PerfRunFact.RunStatus != ResultFact.PerfRunFactCompleted ",
+    "then": [
+      "PerfRunFact.FactResult = \"INVALID\"",
+      "PerfRunFact.FactMessage = \"PerfRun Not Valid\"",
+      "Log(\"---Rule Executed: PerfRunStatusNotCompleted---\")",
+      "Retract(\"PerfRunStatusNotCompleted\")"
+    ]
+  },
+  {
+    "name": "PerfRunTPSValid",
+    "desc": "PerfRun TPS verification.",
+    "salience": 0,
+    "when": "PerfRunFact.FactResult == ResultFact.ValidFactResult && PerfRunFact.TPS >= 100",
+    "then": [
+      "PerfRunFact.TPSResult = \"TPS_ACHIEVED\"",
+      "Log(\"---Rule Executed: PerfRunTPSValid---\")",
+      "Retract(\"PerfRunTPSValid\")"
+    ]
+  },
+  {
+    "name": "PerfRunTPSInValid",
+    "desc": "PerfRun TPS verification.",
+    "salience": 0,
+    "when": "PerfRunFact.TPS < 100",
+    "then": [
+      "PerfRunFact.TPSResult = \"TPS_NOT_ACHIEVED\"",
+      "Log(\"---Rule Executed: PerfRunTPSInValid---\")",
+      "Retract(\"PerfRunTPSInValid\")"
+    ]
+  }
+]
